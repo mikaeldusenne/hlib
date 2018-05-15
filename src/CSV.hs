@@ -1,5 +1,10 @@
 module CSV where
 
+import Data.Foldable
+import Stats
+import List
+import Maths
+
 -- list of rows
 type CSV = [[String]]
 type CSV'col = [String]
@@ -26,7 +31,12 @@ parseCSV sep s = filter (not.emptyRow) $ p s [] [] []
           | x == sep  = p xs t (appd l c) []
           | otherwise = p xs t l (c ++ [x])
 
+seps = ",;"
 
+guessSep :: String -> Maybe Char
+guessSep = safe_head . f . lines
+  where f l = map fst . quickSortBy (σ².snd) . filter ((>=1).µ.snd) $ foldl' g [] seps
+          where g acc c = (c, map (toFraction.length . filter (==c)) l) : acc
 
 -- csvFile = endBy line eol
 -- line = sepBy cell (char ',')

@@ -34,3 +34,10 @@ div = div' []
 div' clss = E "div" clss m
 
 tag s = E s [] m
+
+table :: [[String]] -> Element
+table [] = E "table" [] m []
+table (x:xs) = E "table" [] m $ (th x:map td xs)
+
+th = E "tr" [] m . map (E "th" [] m . (:[])) . map Text
+td = E "tr" [] m . map (E "td" [] m . (:[])) . map Text

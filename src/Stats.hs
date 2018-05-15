@@ -222,16 +222,19 @@ rollDie = do
 
 ----------- Probability
 
--- choose :: Integral α => α -> α -> Fraction
+-- choose :: Integral α => α -> α -> α
+-- choose n k
+--   | n < k     = error "Choose n k"
+--   | otherwise = div a b
+--   where α = [1..n]
+--         β = [1..k] ++ [1..(n-k)]
+--         a = foldr (*) 1 α
+--         b = foldr (*) 1 β
+
 choose :: Integral α => α -> α -> α
---choose :: Integer -> Integer -> Integer
-choose n k
-  | n < k     = error "Choose n k"
-  | otherwise = div a b
-  where α = [1..n]
-        β = [1..k] ++ [1..(n-k)]
-        a = foldr (*) 1 α
-        b = foldr (*) 1 β
+choose n k = reduce (*) α `div` reduce (*) β
+  where α = [ max k (n-k) + 1 .. n ]
+        β = [1 .. min k (n-k)]
 
 showchooseInt :: Int -> Int -> [[Int]]
 showchooseInt n k = showchooseList [0..n-1] k 

@@ -48,7 +48,9 @@ library:
     - xlsx
     - aeson
     - vector
-    - scientific
+    - matrix
+    - JuicyPixels
+    # - scientific
     # - mtl
     
 # executables:
