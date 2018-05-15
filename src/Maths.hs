@@ -15,17 +15,6 @@ import Constants
 {- MODULE FRACTION -}
 ---------------------
 
--- module Fraction where
-
--- import Tree
--- import Maths
--- import List
--- import Data.Ratio (numerator,
---                    denominator)
--- import qualified Data.Ratio ((%))
--- import Tuple
-
-
 type Numerator = Integer
 type Denominator = Integer
 data Fraction = Fraction {
@@ -38,6 +27,7 @@ instance Show Fraction where
   show (Fraction 0 _) = "0"
   show f@(Fraction a b) = show a' ++ "/" ++ show b'
     where (Fraction a' b') = simplify f
+
 -- String representing a number ~= [0-9]\.
 -- --> to Fraction
 parseRationalToFraction :: String -> Fraction
@@ -259,41 +249,6 @@ nfibt n = f 0 1 0
 nfib_std :: Int -> Int
 nfib_std n | n <= 1 = 1
        | otherwise = 1 + (nfib_std (n-1)) + (nfib_std (n-2))
-
-
------- Nat
-
-data Nat = Zero | Succ Nat
-  deriving Show
-natToInteger :: Nat -> Integer
-natToInteger Zero = 0
-natToInteger (Succ n) = 1 + natToInteger n
-
-integerToNat :: Integer -> Nat
-integerToNat n | n < 0 = error "no way dude"
-integerToNat 0 = Zero
-integerToNat n = Succ $ integerToNat (n-1)
-
-instance Num Nat where
-  (+) Zero b = b
-  (+) a Zero = a
-  (+) (Succ a) nb@(Succ b) = (+) a (Succ nb)
-
-  (-) a Zero = a
-  (-) Zero b = error "Negative Number"
-  (-) (Succ a) (Succ b) = (-) a b
-
-  (*) Zero _ = Zero
-  (*) _ Zero = Zero
-  (*) (Succ Zero) b = b
-  (*) a (Succ Zero) = a
-  (*) na@(Succ a) nb = nb + ((*) a nb)
-
-  signum _ = 1
-
-  abs a = a
-
-  fromInteger = integerToNat
 
 
 

@@ -90,8 +90,6 @@ cellToString (CellDouble d) = show d
 cellToString (CellBool b)   = show b
 cellToString (CellRich l)   = flatmap show l
 
-
-
 --group'rows :: Show a => (String -> a)  -> DF -> DF
 group'by indexf sep (DF a b c) = DF a b c'
   where c' = group'by' indexf sep c
@@ -134,53 +132,5 @@ summary = concatWith "\n----\n" . map summarize . column'wise
                   . (\(a,b)-> [a,map show b]) . unzip . freqs
                 f Num' = ("\n\n"++) . show . µ . cleanCol . readNum' 
 
-
-
--- column-first table from a <Char>-separated string
--- parsecsv :: Char -> String -> CSV
--- parsecsv csv_sep str = transpose $ p [] [] [] str False
---   where p table [] [] [] q = table
---         p table line [] [] q = p (table++[line]) [] [] [] q
---         p table line cell [] q = p table (line++[cell]) [] [] q
---         p table line cell s@(x:xs) False
---           | x=='\n'    = p (table ++ [line ++ [cell]]) [] [] xs False
---           | x==csv_sep = p table (line++[cell]) [] xs False
---         p table line cell ('"':'"':xs) quoted =
---           p table line (cell++"\"") xs quoted
---         p table line cell ('"':xs) quoted =
---           p table line cell xs (not quoted)
---         p table line cell (x:xs) quoted =
---           p table line (cell++[x]) xs quoted
-
-
--- parseCSV sep s = parselines s []
---   where parselines "" acc = acc
---         parselines s acc  = parselines s' $ acc ++ [l]
---           where (l,s') = parsecells s []
---                 parsecells "" acc = (acc,"")
---                 parsecells ('\n':xs) acc  = (acc,xs)
---                 parsecells s@('"':xs) acc = parsecells s' $ acc ++ [c]
---                   where (c,s') = untilquote s ""
---                         untilquote s@('"':'"':xs) acc = untilquote xs (acc ++ "\"\"")
---                         untilquote ('"':sep:xs) acc = (acc,xs)
---                         untilquote (x:xs) acc = untilquote xs (acc ++ [x])
---                 parsecells s acc = parsecells s' $ acc ++ [c]
---                   where (c,s') = untilsep s []
---                         untilsep "" acc = (acc, "")
---                         untilsep (x:xs) acc
---                           | x == sep  = (acc, xs)
---                           | otherwise = untilsep xs $ acc ++ [x]
---                           where is_end_of_field = (`elem`",\n")
-  
--- csv_to_df :: [[String]] -> DF
--- csv_to_df t = DF (flatten names) cols
---   where (names, cols_str) = unzip . map (sliceN 1) $ t
---         cols = map p cols_str
---         p values
---           | all isNumber . concat $  values = CNb
---             $ map (\c -> if length c>0
---                          then Just (readDouble c)
---                          else Nothing) values
---           | otherwise = CStr . map Just $ values
 
 

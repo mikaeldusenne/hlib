@@ -22,12 +22,6 @@ toMatrix :: [[String]] -> Matrix (Col String)
 toMatrix cells = Matrix r c . map (uncurry Col . headNtail) . transpose $ cells
   where r = count cells
         c = count . head $ cells
-
--- show'dataframe :: Matrix (Col String) -> String
--- show'dataframe (Matrix r c cells) =
---   showTable . transpose
---   . map (\(Col t c) -> [t]++c)
---   $ cells
   
 
 splitRows = lines
@@ -35,7 +29,6 @@ splitCols = words
 
 unrows = unlines
 -- unclos = reduce (\ a b -> a ++ ('\t' : b))
--- POINT-FREE BITCH
 uncols = reduce ((.('\t':)) . (++))
 
 readRow :: String -> [Cell]
@@ -66,34 +59,6 @@ rows (Matrix m n cells) = splitEach n cells
 
 cols = transpose . rows
 
---------- now in LIST.hs
--- showTable :: Show α => [[α]] -> String
--- showTable = unlines
---             . map (flatten . intercal "\t" . map show)
--- showTableWithHeaders :: Bool -> [[String]] -> [String]
--- showTableWithHeaders b =
---   map (surroundWith "|".concatWith "|")
---   . addHeaders
---   . transpose
---   . map allToMaxSize
---   where addHeaders l@(x:xs) = if b then (x:w:xs) else l
---           where w = map ((`take`(repeat '-')).count) $ head l
--- --          addHeaders l@(x:y:xs) = if b then (x:y:w:xs) else l
-
-
--- 
--- stwh :: [[String]] -> [String]
-
-
--- stwh cols = unlines . filter (not.null) $ [up, t, w, c', down]
---   where wall a b = surround2 a b $ take n $ repeat '─'
---           where n = count t - 2
---         up   = wall "┌" "┐"
---         w    = wall "├" "┤"
---         down = wall "└" "┘"
---         c' = (if length c>0 then init else id) $ unlines c
---         (t: c) = (\(a:b) -> trim a : b) . map f . allToMaxSize . (title:) $ lines content
---           where f = surround2 "│ " " │"
 
 
 showTable :: [[String]] -> String
@@ -142,20 +107,6 @@ scaleMatrix k = fmap (*k)
 -- addRows :: (Num α) => Row α -> Row α -> Row α
 -- addRows = zipWith (+)
 -- mulRows = zipWith (*)
-
--- TODO
-
---
--- if a line is empty, remove it
--- (empty list error)
-
---
--- partial solution ?
---
-
---
--- if all variables are ==0 but result is not,
--- no solution
 
 
 -- solveMatrix ::  Matrix Fraction -> Matrix Fraction
