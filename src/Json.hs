@@ -3,7 +3,7 @@ module Json where
 import qualified Data.HashMap.Strict as HM
 import Data.Aeson
 import qualified Data.Text as T
-import General
+import Misc
 
 
 lookup :: T.Text -> Value -> Value

@@ -1,4 +1,4 @@
-module General where
+module Misc where
 
 fromJust Nothing = error "this is nothingatall"
 fromJust (Just a) = a

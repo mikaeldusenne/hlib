@@ -4,7 +4,7 @@ import Data.List
 import Pixels
 import CSV
 import Hunix
-import General
+import Misc
 
 mean l = sum l / (fromIntegral $ length l)
 

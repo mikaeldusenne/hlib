@@ -1,7 +1,7 @@
 module Stats where
 
 -- import Fraction
-import General
+import Misc
 import Maths
 import Constants
 import Distribution_Tables

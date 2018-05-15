@@ -7,7 +7,7 @@ import Data.Ratio (numerator,
 import qualified Data.Ratio ((%))
 import Tuple
 -- import Control.Parallel
-import General
+import Misc
 import Constants
 
 

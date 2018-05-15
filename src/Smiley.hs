@@ -2,7 +2,7 @@ module Smiley where
 
 -- import Control.Applicative ((<|>), many)
 
-import General
+import Misc
 import CSV
 import List
 

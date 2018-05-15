@@ -7,7 +7,7 @@ import qualified Data.ByteString.Lazy as BL
 import Data.Map hiding (map,foldl,foldr,filter,take,(!?))
 import List
 import Control.Lens
-import General(fromJust, just_or_default)
+import Misc(fromJust, just_or_default)
 import Tuple
 import Data.Text (unpack)
 import Stats(freqs, µ)

@@ -5,7 +5,7 @@ module List where
 
 -- import GHC.Generics (Generic)
 import qualified Data.List
-import General
+import Misc
 import Tuple
 -- import Control.DeepSeq
 -- import Data.Time.Clock

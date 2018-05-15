@@ -4,7 +4,7 @@ module QuotedPrintable
 
 import Bases
 import List
-import General ((?))
+import Misc ((?))
 
 import Data.Char
 import Data.List(foldl')

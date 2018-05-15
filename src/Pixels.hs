@@ -4,7 +4,7 @@ import Codec.Picture.Types
 import Codec.Picture.Png
 import Codec.Picture
 
-import General
+import Misc
 import List
 
 white = (255, 255, 255)
