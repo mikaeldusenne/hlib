@@ -4,6 +4,8 @@
 
 ### Project and documentation
 
+- Add a manual `full` flag (default on). With `-f-full`, only the core modules
+  (`List`, `Maths`, `Colors`, …) are built, without xlsx/HTTP/lens/images.
 - Make `hlib.cabal` the single, versioned package description for Cabal and Stack;
   remove Hpack configuration, the unused executable stub and redundant Setup.hs.
 - Replace Stack LTS 10.7 with LTS 24.59 (GHC 9.10.3); define dependency bounds for
