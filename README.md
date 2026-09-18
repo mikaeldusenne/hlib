@@ -107,9 +107,10 @@ is [examples/Quickstart.hs](examples/Quickstart.hs).
 | Effects | `Hunix`, `Requester` |
 
 Generate the API reference with
-`cabal haddock all --disable-documentation --haddock-hyperlink-source`.
+`cabal haddock all --disable-documentation`.
 Despite its name, `--disable-documentation` here skips dependency documentation;
 Haddock still documents the selected local package.
+`cabal.project` enables source links for hlib without changing dependency builds.
 Cabal prints the generated HTML location under `dist-newstyle`. Each module has
 an overview; documentation of individual legacy functions is still incomplete.
 The handwritten [API guide](docs/API.md) explains the main entry points and traps.
