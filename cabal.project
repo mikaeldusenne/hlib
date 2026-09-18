@@ -1,4 +1,7 @@
 packages: .
 
+package hlib
+  tests: True
+
 -- No freeze file for this library: Stack provides a snapshot, and downstream
 -- applications should freeze their own complete dependency plan.

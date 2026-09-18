@@ -50,10 +50,10 @@ propertyCheck name prop = do
 
 main :: IO ()
 main = do
-  assertEqual "safe_nth empty" Nothing (List.safe_nth 2 ([] :: [Int]))
-  assertEqual "safe_nth past end" Nothing (List.safe_nth 3 [10, 20 :: Int])
-  assertEqual "safe_nth is one-based" (Just 20) (List.safe_nth 2 [10, 20 :: Int])
-  assertEqual "safe_nth rejects zero" Nothing (List.safe_nth 0 [10 :: Int])
+  assertEqual "safe_nth empty" Nothing (List.safe_nth (2 :: Int) ([] :: [Int]))
+  assertEqual "safe_nth past end" Nothing (List.safe_nth (3 :: Int) [10, 20 :: Int])
+  assertEqual "safe_nth is one-based" (Just 20) (List.safe_nth (2 :: Int) [10, 20 :: Int])
+  assertEqual "safe_nth rejects zero" Nothing (List.safe_nth (0 :: Int) [10 :: Int])
   assertEqual "reduce singleton" 7 (List.reduce (+) [7 :: Int])
   assertEqual "flatten empty" ([] :: [Int]) (List.flatten [])
   assertEqual "flatten singleton" [1 :: Int] (List.flatten [[1]])

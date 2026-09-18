@@ -5,7 +5,7 @@ cd "$(dirname "$0")/.."
 
 cabal check
 cabal build all --enable-tests
-cabal test all --test-show-details=direct
+cabal test all --enable-tests --test-show-details=direct
 cabal haddock all --haddock-hyperlink-source
 cabal exec -- runghc examples/Quickstart.hs
 
@@ -29,5 +29,5 @@ fi
 cd "${hlib_sources[0]}"
 cabal check
 cabal build all --enable-tests
-cabal test all --test-show-details=direct
+cabal test all --enable-tests --test-show-details=direct
 cabal exec -- runghc examples/Quickstart.hs
