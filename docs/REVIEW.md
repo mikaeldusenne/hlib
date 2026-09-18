@@ -215,6 +215,7 @@ les corrections et des comportements représentatifs, pas sur chaque export.
 Sources primaires consultées pour les choix de maintenance :
 
 - [Cabal : description des paquets](https://cabal.readthedocs.io/en/stable/cabal-package-description-file.html)
+- [Cabal : comportement de Haddock et documentation des dépendances](https://github.com/haskell/cabal/blob/master/release-notes/cabal-install-3.10.1.0.md)
 - [GHC : éditions du langage](https://downloads.haskell.org/ghc/9.14.1/docs/users_guide/exts/control.html)
 - [Stackage LTS 24.59](https://www.stackage.org/lts-24.59)
 - [GHCup : gestion des outils](https://www.haskell.org/ghcup/guide/)
