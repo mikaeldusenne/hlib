@@ -1,3 +1,6 @@
+-- | Small, row-oriented CSV parser supporting quoted cells, escaped quotes and
+-- LF/CRLF. Empty single-cell rows are discarded. Malformed input can throw;
+-- separator guessing counts literal delimiters, including those inside quotes.
 module CSV where
 
 import Data.Foldable

@@ -1,3 +1,5 @@
+-- | Legacy slash concatenation. This does not normalise paths or implement
+-- the absolute-path semantics of System.FilePath.</>.
 module Paths where
 
 import Data.List

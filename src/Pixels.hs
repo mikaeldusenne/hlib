@@ -1,3 +1,6 @@
+-- | PNG rendering for groups of two-dimensional points. Coordinates are
+-- rounded to pixels. Only the first six groups receive colours; other groups
+-- are omitted. The renderer scans the points for each output pixel.
 module Pixels where
 
 import Codec.Picture.Types

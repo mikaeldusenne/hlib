@@ -1,3 +1,6 @@
+-- | Small legacy combinators and ASCII-oriented character predicates.
+-- fromJust and fromEither throw; isLetter and isSpace are narrower than
+-- the corresponding Unicode-aware Data.Char predicates.
 module Misc where
 
 fromJust Nothing = error "this is nothingatall"

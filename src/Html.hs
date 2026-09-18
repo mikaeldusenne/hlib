@@ -1,3 +1,6 @@
+-- | Minimal HTML rendering. Text and attribute values are escaped. Tag names,
+-- attribute names and URL schemes must be trusted. This is not a full HTML
+-- serializer or a sanitizer for script/style content.
 module Html where
 
 import qualified Data.Map.Strict as M
@@ -23,9 +26,20 @@ instance Show Element where
     [tag'o . unwords $ t : map disp (toList $ addClass a)
     ,unwords $ map show l
     ,tag'c t]
-    where disp (k, v) = k ++ "=" ++ show v
+    where disp (k, v) = k ++ "=\"" ++ escapeHtml v ++ "\""
           addClass = M.insert "class" (unwords c)
-  show (Text s) = s
+  show (Text s) = escapeHtml s
+
+-- | Escape text and quoted attribute values. Tag and attribute /names/, URL
+-- schemes and script/style contexts must still be controlled by the caller.
+escapeHtml :: String -> String
+escapeHtml = concatMap escape
+  where escape '&' = "&amp;"
+        escape '<' = "&lt;"
+        escape '>' = "&gt;"
+        escape '"' = "&quot;"
+        escape '\'' = "&#39;"
+        escape c = [c]
 
 img = img' []
 img' clss attrz = E "img" clss attrz []

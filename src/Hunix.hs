@@ -1,12 +1,13 @@
 {-# LANGUAGE OverloadedStrings #-}
+-- | GNU/Linux command and filesystem helpers. Executables must be on PATH.
+-- Commands are invoked with argument lists, but several file arguments lack
+-- an option terminator. uploadFile requires a personal helper script.
 module Hunix where
 
 import List
 import System.Process
-import System.IO.Strict
 
 import System.Directory
-import System.FilePath
 import Data.Char(isSpace)
 import Control.Monad
 import System.Exit

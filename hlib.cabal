@@ -1,0 +1,93 @@
+cabal-version:      3.0
+name:               hlib
+version:            0.2.0.0
+synopsis:           Personal utilities for lists, data, statistics and rendering
+description:
+  A personal, experimental toolbox. See README.md for examples and
+  docs/REVIEW.md for the known limitations of the legacy API.
+homepage:           https://github.com/mikaeldusenne/hlib
+bug-reports:        https://github.com/mikaeldusenne/hlib/issues
+license:            BSD-3-Clause
+license-file:       LICENSE
+author:             Mikaunix
+maintainer:         https://github.com/mikaeldusenne/hlib/issues
+category:           Data, Math
+build-type:         Simple
+extra-doc-files:
+    README.md
+    ChangeLog.md
+    CONTRIBUTING.md
+    docs/*.md
+extra-source-files:
+    examples/*.hs
+    scripts/check.sh
+    cabal.project
+    stack.yaml
+    stack.yaml.lock
+
+source-repository head
+    type: git
+    location: https://github.com/mikaeldusenne/hlib.git
+
+common defaults
+    default-language: Haskell2010
+    ghc-options: -Wall -Wcompat -Wincomplete-uni-patterns -Wincomplete-record-updates
+    build-depends: base >=4.18 && <4.23
+
+library
+    import: defaults
+    hs-source-dirs: src
+    exposed-modules:
+        Bases
+        CSV
+        Colors
+        Constants
+        DF
+        Distribution_Tables
+        Html
+        Hunix
+        Json
+        Kmeans
+        List
+        Maths
+        Matrix
+        Misc
+        Paths
+        Pixels
+        QuotedPrintable
+        Requester
+        SVG_creator
+        Smiley
+        Stats
+        Trees
+        Tuple
+    build-depends:
+        aeson >=2.1 && <2.3,
+        bytestring >=0.11 && <0.13,
+        containers >=0.6 && <0.9,
+        directory >=1.3 && <1.4,
+        hashable >=1.4 && <1.6,
+        http-conduit >=2.3 && <2.4,
+        JuicyPixels >=3.3 && <3.4,
+        lens >=5.2 && <5.4,
+        math-functions >=0.3 && <0.4,
+        process >=1.6 && <1.7,
+        random >=1.2 && <1.4,
+        text >=2.0 && <2.2,
+        transformers >=0.6 && <0.7,
+        unordered-containers >=0.2 && <0.3,
+        xlsx >=1.1 && <1.3
+
+test-suite hlib-test
+    import: defaults
+    type: exitcode-stdio-1.0
+    hs-source-dirs: test
+    main-is: Spec.hs
+    ghc-options: -threaded -rtsopts
+    build-depends:
+        hlib,
+        aeson >=2.1 && <2.3,
+        bytestring >=0.11 && <0.13,
+        containers >=0.6 && <0.9,
+        http-conduit >=2.3 && <2.4,
+        QuickCheck >=2.14 && <2.17

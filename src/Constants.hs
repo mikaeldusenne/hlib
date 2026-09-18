@@ -1,3 +1,5 @@
+-- | Legacy numeric constants. The long decimal literals are inferred as
+-- Double, not arbitrary-precision values. infinint is maxBound :: Int.
 module Constants where
 
 

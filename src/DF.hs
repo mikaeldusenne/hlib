@@ -1,4 +1,7 @@
 {-# LANGUAGE TemplateHaskell,OverloadedStrings #-}
+-- | String-backed data frames and XLSX helpers. CSV data is row-oriented;
+-- column-wise conversion transposes it. Legacy readers assume a non-empty
+-- worksheet named Sheet1 and do not validate rectangularity or cell types.
 module DF where
 
 import CSV

@@ -1,3 +1,6 @@
+-- | Legacy list and string utilities. safe_nth is one-based, while indexOf
+-- is zero-based. Several other helpers are partial; see docs/API.md before
+-- relying on empty-input or ragged-table behaviour.
 module List where
 ---- {-# LANGUAGE OverloadedStrings #-}
 ---- {-# LANGUAGE DeriveGeneric #-}
@@ -32,8 +35,10 @@ import Data.Hashable
 safe_head l = if isEmpty l then Nothing else Just (head l)
 safe_tail l = if isEmpty l then Nothing else Just (tail l)
 
+-- | One-based lookup. Non-positive and out-of-range indices return 'Nothing'.
+safe_nth :: (Ord n, Num n) => n -> [a] -> Maybe a
 safe_nth 1 l      = safe_head l
-safe_nth k []     = safe_nth 0 []
+safe_nth _ []     = Nothing
 safe_nth k (x:xs) | k<1       = Nothing
                   | otherwise = safe_nth (k-1) xs
 
@@ -109,12 +114,16 @@ split sep l =
 -- reduce _ [x] = x
 
 -- reduce :: (t -> t -> t) -> [t] -> t
+-- | Strict left reduction of a non-empty list. Throws on empty input.
+reduce :: (a -> a -> a) -> [a] -> a
 reduce _ [] = error "reduce empty list"
-reduce _ [x] = error $ "reduce single element"
+reduce _ [x] = x
 reduce f l = foldl' f (head l) (tail l)
 
 
-flatten = reduce (++)
+-- | Concatenate sublists, including empty and singleton outer lists.
+flatten :: [[a]] -> [a]
+flatten = concat
 -- concat = flatten
 -- flatmap f = (reduce (++)) . (map f)
 
@@ -209,7 +218,9 @@ takeEnd n l = drop (count l - n) l
 
 --append x l = foldr (:) [x] l
 
+-- | Consecutive chunks; the last may be shorter. The size must be positive.
 splitEach :: Int -> [α] -> [[α]]
+splitEach k _ | k <= 0 = error "List.splitEach: non-positive chunk size"
 splitEach _ [] = []
 splitEach k l = (take k l) : (splitEach k . drop k $ l)
 
@@ -324,7 +335,9 @@ nothingIf f x = if f x then Nothing else Just x
 
 -- lines generalized
 -- first arg is the list delimiter
+-- | Split at a non-empty delimiter, retaining empty segments.
 splitWhen :: (Eq a) => [a] -> [a] -> [[a]]
+splitWhen [] _ = error "List.splitWhen: empty separator"
 splitWhen sep l = sp l [] []
   where sp [] acc s = acc++[s]
         sp l@(x:xs) acc s
@@ -362,12 +375,9 @@ spanList f l = spnl l []
 rotate :: [α] -> [α]
 rotate l = zipWith const (drop 1 (cycle l)) l
 
+-- | Transpose with 'Data.List.transpose' semantics, including ragged lists.
 transpose :: [[α]] -> [[α]]
-transpose ([]:_) = []
-transpose l = a : transpose b
-  where tuplecons (a,b) (c,d) = (a:c , b:d)
-        (a,b) = foldr tuplecons ([],[])
-                $ map headNtail $ l
+transpose = Data.List.transpose
 
 startsWith :: (Eq α) => [α] -> [α] -> Bool
 startsWith [] _ = True
@@ -451,6 +461,7 @@ replace a b = fmap (\ e -> if e == a then b else e)
 
 -- any
 -- todo fold, tail recursion
+replaceStr [] _ str = str
 replaceStr a b [] = []
 replaceStr a b str | isPrefixOf a str = b ++ replaceStr a b (drop k str)
                    | otherwise = head str : (replaceStr a b $ tail str)

@@ -1,3 +1,5 @@
+-- | Small SVG constructors with Show-based rendering. Colour strings are
+-- unvalidated raw fragments; only use trusted, six-digit hexadecimal values.
 module SVG_creator where
 
 import List
