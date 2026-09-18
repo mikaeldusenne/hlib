@@ -26,6 +26,7 @@
   population sizes and return zero for out-of-range choices.
 - `Matrix.rowN` uses the column count to extract rows of rectangular matrices.
 - Adapt JSON object lookup to Aeson 2 and add `lookupMaybe`/`unStringMaybe`.
+- Adapt XLSX row/column index newtypes while retaining `DF.Point` as `(Int, Int)`.
 - Implement HTTP `GET` construction and add `sendWith` for manager reuse. The
   existing `send` response encoding remains Char8.
 - HTML text and attribute values are escaped. Existing callers supplying raw

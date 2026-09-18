@@ -3,7 +3,10 @@ module Main (main) where
 
 import Control.Exception (ErrorCall, evaluate, try)
 import Control.Monad (unless)
+import Control.Lens ((&), (.~), (?~))
+import qualified Codec.Xlsx as Xlsx
 import qualified Data.Aeson as Aeson
+import Data.Default.Class (def)
 import qualified Data.List as DL
 import qualified Data.Map.Strict as Map
 import qualified Network.HTTP.Conduit as HTTP
@@ -13,6 +16,7 @@ import Test.QuickCheck
 
 import qualified Bases
 import qualified CSV
+import qualified DF
 import qualified Html
 import qualified Json
 import qualified Kmeans
@@ -78,6 +82,15 @@ main = do
   assertEqual "CSV preserves interior empty cells" [["a","","b"]]
     (CSV.parseCSV ',' "a,,b")
   assertEqual "CSV empty input" [] (CSV.parseCSV ',' "")
+  let sheet = (def :: Xlsx.Worksheet) & Xlsx.wsCells .~ Map.fromList
+        [ ((2,3), def & Xlsx.cellValue ?~ Xlsx.CellText "name")
+        , ((2,4), def & Xlsx.cellValue ?~ Xlsx.CellText "score")
+        , ((3,3), def & Xlsx.cellValue ?~ Xlsx.CellText "Alice")
+        , ((3,4), def & Xlsx.cellValue ?~ Xlsx.CellDouble 10)
+        ]
+  assertEqual "XLSX range keeps Int coordinates" ((2,3),(3,4)) (DF.wsRange sheet)
+  assertEqual "XLSX offset sheet titles" ["name","score"] (DF.df'titles (DF.ws'to'DF sheet))
+  assertEqual "XLSX offset sheet values" [["Alice","10.0"]] (DF.df'data (DF.ws'to'DF sheet))
   assertEqual "fraction arithmetic" (Maths.readFraction "2")
     (Maths.readFraction "1.25" + Maths.readFraction "3/4")
   let object = Aeson.object ["name" Aeson..= ("hlib" :: String)]

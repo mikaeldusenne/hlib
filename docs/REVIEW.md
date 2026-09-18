@@ -30,6 +30,7 @@ Elle ne rend pas l'ensemble de la bibliothèque sûr ou numériquement validé.
 
 | Priorité | Défaut initial et cas révélateur | Correction |
 | --- | --- | --- |
+| Haute | Les indices XLSX sont devenus des newtypes incompatibles avec `DF.Point` | Conversion explicite aux frontières et test d’une feuille décalée |
 | Haute | `Json.lookup` traite `Object` comme un `HashMap Text`, incompatible avec Aeson 2 | `Key`/`KeyMap`, plus deux variantes retournant `Maybe` |
 | Haute | `safe_nth 3 [10,20]` se rappelle indéfiniment sur `[]` | Retourne `Nothing` |
 | Haute | `median [1,2,3]` vaut 1.5 ; `median [1,2,3,4]` vaut 2 | Sélection correcte selon la parité |
@@ -57,6 +58,8 @@ valeurs. `pgcd 5 0` divise par zéro. Le `Read` de `Fraction` appelle un parseur
 partiel sur les jetons : `readMaybe` n'est donc pas une protection suffisante.
 La notation scientifique et les signes ne sont pas traités uniformément.
 `fact (-1)` ne termine pas, et `prettyBytes 1` affiche une unité kB sans conversion.
+`sumOfDigits 99` renvoie 9 : c'est une réduction répétée des chiffres, pas leur
+simple somme (18). Le nom et le contrat méritent d'être clarifiés.
 
 Proposition : ajouter un constructeur validé et un parseur `Either`, tester les
 lois arithmétiques sur des dénominateurs non nuls, puis discuter une représentation

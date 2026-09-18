@@ -41,7 +41,7 @@ might suggest. There is no application binary to install or service to deploy.
 On Arch Linux, the native prerequisites can be installed with:
 
 ```sh
-sudo pacman -Syu --needed base-devel curl git gmp libffi ncurses zlib zstd expat
+sudo pacman -Syu --needed base-devel curl git gmp libffi ncurses zlib zstd expat bzip2
 ```
 
 Then use the same GHCup instructions. Keep GHCup's `~/.ghcup/bin` ahead of a

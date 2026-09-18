@@ -53,7 +53,8 @@ notation is not generally interchangeable with `read :: String -> Double`.
 `roundFraction`, `fracPower` and formatted output also use floating arithmetic.
 `fact` requires a non-negative argument. `pgcd` does not handle a zero second
 argument. `prettyBytes` historically labels its input as kB and divides by 1024;
-it is not a reliable byte-unit formatter.
+it is not a reliable byte-unit formatter. `sumOfDigits` repeatedly sums digits
+until a single digit remains (for example, 99 becomes 9, not 18).
 
 `median` sorts its input, averages the middle pair for an even count and throws
 on an empty list. `choose n k` returns zero for `k < 0` or `k > n`, and throws for

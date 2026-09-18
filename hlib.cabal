@@ -90,4 +90,7 @@ test-suite hlib-test
         bytestring >=0.11 && <0.13,
         containers >=0.6 && <0.9,
         http-conduit >=2.3 && <2.4,
-        QuickCheck >=2.14 && <2.17
+        data-default-class >=0.1 && <0.3,
+        lens >=5.2 && <5.4,
+        QuickCheck >=2.14 && <2.17,
+        xlsx >=1.1 && <1.3
