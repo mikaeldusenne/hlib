@@ -30,7 +30,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libbz2-dev libexpat1-dev libgmp-dev libzstd-dev zlib1g-dev
-      - uses: haskell-actions/setup@bda9c527d4136f7759733016190c34a24c84f4f4 # v2
+      - uses: haskell-actions/setup@6037f33647c3f17758a2356c80fc4a53d7e0685d # v2
         id: setup
         with:
           ghc-version: ${{ matrix.ghc }}
@@ -71,7 +71,7 @@ jobs:
         run: |
           sudo apt-get update
           sudo apt-get install -y --no-install-recommends libbz2-dev libexpat1-dev libgmp-dev libzstd-dev zlib1g-dev
-      - uses: haskell-actions/setup@bda9c527d4136f7759733016190c34a24c84f4f4 # v2
+      - uses: haskell-actions/setup@6037f33647c3f17758a2356c80fc4a53d7e0685d # v2
         id: setup
         with:
           ghc-version: '9.10.3'
