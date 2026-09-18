@@ -42,7 +42,7 @@ Maths.readFraction "3/4"          -- 3/4
 Maths.fromFraction (3 Maths.% 4) :: Double  -- 0.75
 Stats.µ [1,2,3 :: Rational]       -- 2 % 1
 Stats.σ² [1,2,3 :: Rational]      -- 2 % 3, population variance
-Stats.s² [1,2,3 :: Rational]      -- 1 % 1, sample variance
+Stats.s² [1,2,3 :: Double]        -- 1.0, sample variance
 ```
 
 `Maths.Fraction` uses `Integer` fields. Its constructor is exposed; there is no
@@ -65,6 +65,10 @@ Means and population variance require at least one observation; sample variance
 requires at least two. `cov`, `r` and `r²` require paired vectors of equal length;
 the implementation truncates pairs if you violate this. Correlation additionally
 requires non-zero variance in both vectors.
+
+Some legacy bindings have narrower inferred types than their implementations
+suggest: `s²` is specialised to `Double`, whereas the explicitly typed `σ²` is
+polymorphic over `Fractional`. These existing types are preserved.
 
 `f_stat_critical p df1 df2` currently takes a **lower-tail cumulative probability**:
 use `0.95` for the usual upper 5% threshold. It returns `Just` unconditionally

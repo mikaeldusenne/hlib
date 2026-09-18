@@ -180,7 +180,9 @@ code ; activer toutes ses extensions d'un coup sur cette bibliothèque à types
 largement inférés ne serait pas une amélioration gratuite. Les warnings sont
 activés, sans `-Werror` global : les omissions de signatures, motifs partiels et
 défauts de style sont visibles, avec une dette à résorber progressivement.
-Les noms génériques sont gardés ; des exports explicites et un namespace `Hlib.*`
+Le monomorphisme est concret : `s²` est inférée en `Double`, contrairement à
+`σ²`, qui possède une signature polymorphe. Les tests et exemples respectent
+ces types existants. Les noms génériques sont gardés ; des exports explicites et un namespace `Hlib.*`
 seraient souhaitables à terme, avec modules de compatibilité et inventaire des
 usages, pas par renommage immédiat.
 

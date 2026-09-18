@@ -15,6 +15,9 @@ Maintenance review: 2026-09-18, starting at `a116d55`.
   CR; `simplify (Fraction 0 0)` gives `0`, and `prettyBytes 1` gives `1 kB`.
 - Dimensions of all five historical F tables: 34 rows × 19 columns.
 
+- Local execution of the list, statistics/matrix and CSV/HTML/tree test subsets
+  passes on GHC 9.10.3, including all four QuickCheck properties (200 cases each).
+
 ## Build and test status
 
 Full GHC 9.10.3 compilation is in progress in an isolated local toolchain on

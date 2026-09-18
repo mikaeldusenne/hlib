@@ -71,7 +71,7 @@ main = do
      Stats.choose 5 5, Stats.choose 5 6, Stats.choose 5 (-1) :: Integer]
   assertEqual "binomial mass" (1 :: Rational) (sum (Stats.dbinom (6 :: Integer) (1/3)))
   assertEqual "population variance" (2/3 :: Rational) (Stats.σ² [1,2,3])
-  assertEqual "sample variance" (1 :: Rational) (Stats.s² [1,2,3])
+  assertEqual "sample variance" (1 :: Double) (Stats.s² [1,2,3])
   assertEqual "rectangular matrix row" [4,5,6 :: Int]
     (Matrix.rowN 2 (Matrix.Matrix 2 3 [1..6]))
   assertEqual "matrix columns" [[1,4], [2,5], [3,6 :: Int]]
