@@ -17,7 +17,7 @@ import Maths
 import Text.Read(readMaybe)
 -- import Text.ParserCombinators.Parsec
 
-type Point = (Int, Int)
+type Point = (RowIndex, ColumnIndex)
 
 data Type = String' | Num'
 
@@ -57,12 +57,11 @@ readXlsx s = (fromJust . (^? ixSheet "Sheet1") . toXlsx)
 
 -- determine the minimum / maximum row / column of a worksheet
 wsRange :: Worksheet -> (Point,Point)
-wsRange ws = ((top, left), (bottom, right))
-  where [top,left,bottom,right] =
-          (uncurry most<$>) $
-          (,) <$> [reduce min,reduce max] <*> [fst,snd]
-        most f which = f . ((which.fst)<$>) $ l
-        l = toList $ ws ^. wsCells
+wsRange ws = ((minimum rows, minimum cols), (maximum rows, maximum cols))
+  where
+    keys = map fst . toList $ ws ^. wsCells
+    rows = map fst keys
+    cols = map snd keys
 
 (!?) :: Ord a => Map a b -> a -> Maybe b
 (!?) m k = if k `member` m then Just (m!k) else Nothing

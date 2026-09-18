@@ -24,8 +24,6 @@ dependencies:
 
 library:
   source-dirs: src
-  ghc-options:
-    # -Wall
   dependencies:
     - bytestring
     - containers
