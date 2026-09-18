@@ -141,29 +141,29 @@ le statut de sortie et lit paresseusement les pipes.
 
 | Module | Appréciation et prochaine amélioration utile |
 | --- | --- |
-| `Bases` | Petit et lisible, mais domaine valide trop implicite ; parsing validé et débordements à traiter. |
-| `CSV` | Gère déjà les guillemets doublés, CRLF et sauts intégrés ; ajouter erreurs explicites et fixtures limites. |
-| `Colors` | Représentation simple ; valider canaux et parsing, fixer la casse hex acceptée. |
-| `Constants` | Les longues décimales restent des `Double` inférés ; préciser les types et supprimer l'illusion de précision. |
-| `DF` | Pratique pour des scripts, mais listes parallèles sans invariant ; `Sheet1` imposée, feuille vide et cellules d'erreur partielles, matrice dense potentiellement énorme. |
-| `Distribution_Tables` | Dimensions vérifiées ; provenance, convention alpha et sentinelle 64 bits à documenter/valider. |
-| `Html` | Défaut d'échappement corrigé ; éléments vides, espaces ajoutés, noms et contextes script/style encore rudimentaires. |
-| `Hunix` | Argument lists plutôt que shell : bon choix ; unités, options, exceptions et atomicité à revoir. |
-| `Json` | Compatible Aeson 2, helpers sûrs disponibles ; conserver les anciens partiels seulement pour compatibilité. |
-| `Kmeans` | Deux erreurs locales corrigées ; exposer ensuite tolérance, budget d'itérations et stratégie d'initialisation, tester le coût objectif. |
-| `List` | Cœur utile ; réduire doublons avec `Data.List` progressivement, clarifier les conventions divergentes et les entrées vides. |
-| `Maths` | Type fraction riche mais invariants absents ; priorité au contrat avant une substitution de représentation. |
-| `Matrix` | `rowN` corrigé ; constructor/`readMatrix`/`elementwise` ne garantissent pas les dimensions, `toMatrix` a une représentation incohérente avec les autres helpers. |
-| `Misc` | Beaucoup d'alias de fonctions standard ; ne pas les renommer en masse, documenter les prédicats ASCII et les partiels. |
-| `Paths` | Concaténation de slashs, pas sémantique système ; adopter `System.FilePath` dans le nouveau code. |
-| `Pixels` | Six groupes seulement, motifs `[x,y]` partiels, coût pixels × points ; une table de pixels serait une amélioration mesurable. |
-| `QuotedPrintable` | Défauts de correction démontrables ; ne pas présenter ce module comme encodeur MIME utilisable sans validation. |
-| `Requester` | GET et réutilisation du manager ajoutés ; réponse structurée et encodage explicite seraient les ajouts suivants. |
-| `SVG_creator` | Suffisant pour dessins de confiance ; composantes de couleur brutes, données non validées et parsing hex partiel. |
-| `Smiley` | Bonne séparation partielle pur/IO ; chemin paramétrable, mapping vide pouvant boucler et frontières Unicode à traiter. |
-| `Stats` | Utilitaires descriptifs plus fiables après correction ; inférence et échantillonnage restent expérimentaux. |
-| `Trees` | Instances Functor/Foldable/Traversable cohérentes à la lecture ; `Read` et `Show` incompatibles, `toList` quadratique par concaténation. |
-| `Tuple` | Faible complexité ; ajouter signatures et variantes sûres des conversions de listes. |
+| [Bases](../src/Bases.hs) | Petit et lisible, mais domaine valide trop implicite ; parsing validé et débordements à traiter. |
+| [CSV](../src/CSV.hs) | Gère déjà les guillemets doublés, CRLF et sauts intégrés ; ajouter erreurs explicites et fixtures limites. |
+| [Colors](../src/Colors.hs) | Représentation simple ; valider canaux et parsing, fixer la casse hex acceptée. |
+| [Constants](../src/Constants.hs) | Les longues décimales restent des `Double` inférés ; préciser les types et supprimer l'illusion de précision. |
+| [DF](../src/DF.hs) | Pratique pour des scripts, mais listes parallèles sans invariant ; `Sheet1` imposée, feuille vide et cellules d'erreur partielles, matrice dense potentiellement énorme. |
+| [Distribution_Tables](../src/Distribution_Tables.hs) | Dimensions vérifiées ; provenance, convention alpha et sentinelle 64 bits à documenter/valider. |
+| [Html](../src/Html.hs) | Défaut d'échappement corrigé ; éléments vides, espaces ajoutés, noms et contextes script/style encore rudimentaires. |
+| [Hunix](../src/Hunix.hs) | Argument lists plutôt que shell : bon choix ; unités, options, exceptions et atomicité à revoir. |
+| [Json](../src/Json.hs) | Compatible Aeson 2, helpers sûrs disponibles ; conserver les anciens partiels seulement pour compatibilité. |
+| [Kmeans](../src/Kmeans.hs) | Deux erreurs locales corrigées ; exposer ensuite tolérance, budget d'itérations et stratégie d'initialisation, tester le coût objectif. |
+| [List](../src/List.hs) | Cœur utile ; réduire doublons avec `Data.List` progressivement, clarifier les conventions divergentes et les entrées vides. |
+| [Maths](../src/Maths.hs) | Type fraction riche mais invariants absents ; priorité au contrat avant une substitution de représentation. |
+| [Matrix](../src/Matrix.hs) | `rowN` corrigé ; constructor/`readMatrix`/`elementwise` ne garantissent pas les dimensions, `toMatrix` a une représentation incohérente avec les autres helpers. |
+| [Misc](../src/Misc.hs) | Beaucoup d'alias de fonctions standard ; ne pas les renommer en masse, documenter les prédicats ASCII et les partiels. |
+| [Paths](../src/Paths.hs) | Concaténation de slashs, pas sémantique système ; adopter `System.FilePath` dans le nouveau code. |
+| [Pixels](../src/Pixels.hs) | Six groupes seulement, motifs `[x,y]` partiels, coût pixels × points ; une table de pixels serait une amélioration mesurable. |
+| [QuotedPrintable](../src/QuotedPrintable.hs) | Défauts de correction démontrables ; ne pas présenter ce module comme encodeur MIME utilisable sans validation. |
+| [Requester](../src/Requester.hs) | GET et réutilisation du manager ajoutés ; réponse structurée et encodage explicite seraient les ajouts suivants. |
+| [SVG_creator](../src/SVG_creator.hs) | Suffisant pour dessins de confiance ; composantes de couleur brutes, données non validées et parsing hex partiel. |
+| [Smiley](../src/Smiley.hs) | Bonne séparation partielle pur/IO ; chemin paramétrable, mapping vide pouvant boucler et frontières Unicode à traiter. |
+| [Stats](../src/Stats.hs) | Utilitaires descriptifs plus fiables après correction ; inférence et échantillonnage restent expérimentaux. |
+| [Trees](../src/Trees.hs) | Instances Functor/Foldable/Traversable cohérentes à la lecture ; `Read` et `Show` incompatibles, `toList` quadratique par concaténation. |
+| [Tuple](../src/Tuple.hs) | Faible complexité ; ajouter signatures et variantes sûres des conversions de listes. |
 
 ## Structure, conventions et publication
 

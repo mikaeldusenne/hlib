@@ -6,7 +6,8 @@ cd "$(dirname "$0")/.."
 cabal check
 cabal build all --enable-tests
 cabal test all --enable-tests --test-show-details=direct
-cabal haddock all --haddock-hyperlink-source
+# Keep dependency documentation out of this package's validation build.
+cabal haddock all --disable-documentation --haddock-hyperlink-source
 cabal exec -- runghc examples/Quickstart.hs
 
 # Building the checkout alone does not catch missing files in a release.
