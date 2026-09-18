@@ -43,7 +43,7 @@ jobs:
           restore-keys: ${{ runner.os }}-ghc-${{ matrix.ghc }}-
       - name: Build, test, document and verify the source archive
         run: bash scripts/check.sh
-      - uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+      - uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: always() && steps.setup.outcome == 'success' && steps.cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.setup.outputs.cabal-store }}
@@ -85,7 +85,7 @@ jobs:
           restore-keys: ${{ runner.os }}-stack-
       - name: Verify the pinned snapshot
         run: stack test --system-ghc --no-install-ghc
-      - uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+      - uses: actions/cache/save@55cc8345863c7cc4c66a329aec7e433d2d1c52a9 # v6.1.0
         if: always() && steps.setup.outcome == 'success' && steps.cache.outputs.cache-hit != 'true'
         with:
           path: ${{ steps.setup.outputs.stack-root }}
