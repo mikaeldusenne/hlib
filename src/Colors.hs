@@ -1,3 +1,6 @@
+-- | RGB colours represented by Fraction channels, conventionally in [0,1].
+-- Constructors do not validate the range. Readers and list conversions are
+-- partial; use validated input.
 module Colors where
 
 import List

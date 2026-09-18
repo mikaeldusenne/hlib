@@ -1,3 +1,6 @@
+-- | Legacy arithmetic and a custom rational representation. Fraction exposes
+-- its constructor and permits zero denominators; parsing and conversion can
+-- fail. Prefer validated inputs. This module is not a replacement for Rational.
 module Maths where
 
 import Text.Printf hiding (map)

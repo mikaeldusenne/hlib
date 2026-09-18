@@ -1,3 +1,5 @@
+-- | Tuple combinators. headNtail and toTuple2/toTuple3 are partial when the
+-- input list has the wrong length.
 module Tuple where
 
 

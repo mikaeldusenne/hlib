@@ -1,4 +1,8 @@
 .stack-work/
-hlib.cabal
+dist-newstyle*/
+dist/
+cabal.project.local
+cabal.project.freeze
+.ghc.environment.*
 *~
 TAGS

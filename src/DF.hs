@@ -1,4 +1,7 @@
 {-# LANGUAGE TemplateHaskell,OverloadedStrings #-}
+-- | String-backed data frames and XLSX helpers. CSV data is row-oriented;
+-- column-wise conversion transposes it. Legacy readers assume a non-empty
+-- worksheet named Sheet1 and do not validate rectangularity or cell types.
 module DF where
 
 import CSV
@@ -17,7 +20,7 @@ import Maths
 import Text.Read(readMaybe)
 -- import Text.ParserCombinators.Parsec
 
-type Point = (RowIndex, ColumnIndex)
+type Point = (Int, Int)
 
 data Type = String' | Num'
 
@@ -57,11 +60,13 @@ readXlsx s = (fromJust . (^? ixSheet "Sheet1") . toXlsx)
 
 -- determine the minimum / maximum row / column of a worksheet
 wsRange :: Worksheet -> (Point,Point)
-wsRange ws = ((minimum rows, minimum cols), (maximum rows, maximum cols))
-  where
-    keys = map fst . toList $ ws ^. wsCells
-    rows = map fst keys
-    cols = map snd keys
+wsRange ws = ((top, left), (bottom, right))
+  where [top,left,bottom,right] =
+          (uncurry most<$>) $
+          (,) <$> [reduce min,reduce max] <*> [fst,snd]
+        most f which = f . ((which.fst)<$>) $ l
+        l = [((unRowIndex r, unColumnIndex c), v)
+            | ((r,c),v) <- toList $ ws ^. wsCells]
 
 (!?) :: Ord a => Map a b -> a -> Maybe b
 (!?) m k = if k `member` m then Just (m!k) else Nothing
@@ -77,7 +82,7 @@ csv'to'DF headersyn csv = DF titles types csv'
 ws'to'DF :: Worksheet -> DF
 ws'to'DF ws = DF titles types l²
   where cm = ws^.wsCells
-        cellContent r c = just_or_default "" $ cellToString <$> (cm !? (r,c) >>= (^.cellValue))
+        cellContent r c = just_or_default "" $ cellToString <$> (cm !? (RowIndex r,ColumnIndex c) >>= (^.cellValue))
         types = take (count titles) $ repeat String'
         ((top,left),(bottom,right)) = wsRange ws
         (titles:l²) = [[ cellContent rn cn | cn <- [left..right]] | rn <- [top..bottom]]
@@ -130,6 +135,5 @@ summary = concatWith "\n----\n" . map summarize . column'wise
                   . Matrix.showTable
                   . (\(a,b)-> [a,map show b]) . unzip . freqs
                 f Num' = ("\n\n"++) . show . µ . cleanCol . readNum' 
-
 
 

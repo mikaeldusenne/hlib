@@ -1,3 +1,6 @@
+-- | Flat, row-major matrices and text tables. rowN is one-based. The public
+-- constructor does not enforce dimensions; callers must supply exactly
+-- nRows * nCols cells. Several legacy readers remain partial.
 module Matrix where
 
 import Maths
@@ -51,8 +54,9 @@ readMatrix s = if ok
         (n,r) = (`divMod`m) . fromIntegral . count $ cells
         ok = r == 0
 
+-- | Extract a one-based row. Assumes valid dimensions and an in-range index.
 rowN :: Int -> Matrix α -> [α]
-rowN k (Matrix m n cells) = take m . drop ((k-1)*m) $ cells 
+rowN k (Matrix _ n cells) = take n . drop ((k-1)*n) $ cells
 
 rows :: Matrix α -> [[α]]
 rows (Matrix m n cells) = splitEach n cells
@@ -184,4 +188,3 @@ scaleMatrix k = fmap (*k)
 
 loadMatrix n = readMatrix <$> readFile path
   where path = "matrix/matrix"++(show n)++".data"
-

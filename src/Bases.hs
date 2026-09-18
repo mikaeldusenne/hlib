@@ -1,3 +1,6 @@
+-- | Legacy positional-base conversions. Use non-negative Int values and bases
+-- 2 to 16 for the supported path; base 64 is unimplemented and invalid digits
+-- are not validated by the partial readers.
 module Bases where
 
 import List

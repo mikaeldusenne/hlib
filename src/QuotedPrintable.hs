@@ -1,3 +1,5 @@
+-- | Experimental quoted-printable encoder with known Unicode-boundary and
+-- newline-handling defects. Do not rely on RFC compliance; see docs/REVIEW.md.
 module QuotedPrintable 
        ( encode -- :: String -> String
        ) where

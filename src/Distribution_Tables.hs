@@ -1,3 +1,6 @@
+-- | Historical F-distribution critical-value tables. alpha is an upper-tail
+-- probability here. The large final degree-of-freedom value assumes a 64-bit
+-- Int; table provenance and numerical precision need independent validation.
 module Distribution_Tables where
 
 import Maths

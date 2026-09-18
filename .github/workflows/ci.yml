@@ -1,0 +1,92 @@
+name: CI
+
+on:
+  push:
+    branches: [master]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  cabal:
+    name: GHC ${{ matrix.ghc }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    strategy:
+      fail-fast: false
+      matrix:
+        ghc: ['9.6.7', '9.10.3', '9.12.4', '9.14.1']
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install native build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libbz2-dev libexpat1-dev libgmp-dev libzstd-dev zlib1g-dev
+      - uses: haskell-actions/setup@bda9c527d4136f7759733016190c34a24c84f4f4 # v2
+        id: setup
+        with:
+          ghc-version: ${{ matrix.ghc }}
+          cabal-version: '3.18.1.0'
+      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        id: cache
+        with:
+          path: ${{ steps.setup.outputs.cabal-store }}
+          key: ${{ runner.os }}-ghc-${{ matrix.ghc }}-${{ hashFiles('hlib.cabal', 'cabal.project') }}
+          restore-keys: ${{ runner.os }}-ghc-${{ matrix.ghc }}-
+      - name: Build, test, document and verify the source archive
+        run: bash scripts/check.sh
+      - uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: always() && steps.setup.outcome == 'success' && steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.setup.outputs.cabal-store }}
+          key: ${{ runner.os }}-ghc-${{ matrix.ghc }}-${{ hashFiles('hlib.cabal', 'cabal.project') }}
+      - name: Prepare review artifacts
+        if: matrix.ghc == '9.10.3'
+        run: cabal sdist
+      - uses: actions/upload-artifact@b7c566a772e6b6bfb58ed0dc250532a479d7789f # v6
+        if: matrix.ghc == '9.10.3'
+        with:
+          name: hlib-source-and-docs
+          path: |
+            dist-newstyle/sdist/*.tar.gz
+            dist-newstyle/build/**/doc/html/hlib/
+          if-no-files-found: error
+
+  stack:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@d23441a48e516b6c34aea4fa41551a30e30af803 # v6
+        with:
+          persist-credentials: false
+      - name: Install native build dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y --no-install-recommends libbz2-dev libexpat1-dev libgmp-dev libzstd-dev zlib1g-dev
+      - uses: haskell-actions/setup@bda9c527d4136f7759733016190c34a24c84f4f4 # v2
+        id: setup
+        with:
+          ghc-version: '9.10.3'
+          enable-stack: true
+          stack-version: '3.11.1'
+      - uses: actions/cache/restore@caa296126883cff596d87d8935842f9db880ef25 # v5
+        id: cache
+        with:
+          path: ${{ steps.setup.outputs.stack-root }}
+          key: ${{ runner.os }}-stack-${{ hashFiles('stack.yaml', 'stack.yaml.lock', 'hlib.cabal') }}
+          restore-keys: ${{ runner.os }}-stack-
+      - name: Verify the pinned snapshot
+        run: stack test --system-ghc --no-install-ghc
+      - uses: actions/cache/save@caa296126883cff596d87d8935842f9db880ef25 # v5
+        if: always() && steps.setup.outcome == 'success' && steps.cache.outputs.cache-hit != 'true'
+        with:
+          path: ${{ steps.setup.outputs.stack-root }}
+          key: ${{ runner.os }}-stack-${{ hashFiles('stack.yaml', 'stack.yaml.lock', 'hlib.cabal') }}

@@ -1,3 +1,5 @@
+-- | Rose and binary tree experiments. Traversal visits parents before children.
+-- The custom Read and Show syntaxes are different and do not round-trip.
 module Trees where
 
 import Data.List(foldl')

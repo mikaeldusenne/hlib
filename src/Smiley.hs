@@ -1,3 +1,6 @@
+-- | Boundary-aware smiley substitution with caller-provided mappings.
+-- The IO convenience functions read a personal absolute path; use parseSmiley
+-- for portable code and provide non-empty mapping keys.
 module Smiley where
 
 -- import Control.Applicative ((<|>), many)

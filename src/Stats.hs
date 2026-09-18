@@ -1,3 +1,7 @@
+-- | Experimental probability and statistics helpers. Distinguish population
+-- variance sigma-squared (σ²) from sample variance (s²). Empty samples,
+-- mismatched pairs and invalid distribution parameters are generally unchecked.
+-- qnorm is unimplemented. See docs/REVIEW.md for inferential-statistics caveats.
 module Stats where
 
 -- import Fraction
@@ -18,7 +22,6 @@ import qualified Data.List
 import Control.Monad.Trans.State
 import System.Process
 import System.IO
-import Statistics.Distribution.FDistribution
 import Numeric.SpecFunctions (incompleteBeta,invIncompleteBeta )
 import Data.List(foldl')
 ------------------------- VALUES
@@ -231,8 +234,13 @@ rollDie = do
 --         a = foldr (*) 1 α
 --         b = foldr (*) 1 β
 
+-- | Binomial coefficient. Requires non-negative n; returns zero for k outside
+-- [0,n]. Use Integer when intermediate products could overflow a bounded type.
 choose :: Integral α => α -> α -> α
-choose n k = reduce (*) α `div` reduce (*) β
+choose n k
+  | n < 0 = error "Stats.choose: negative population size"
+  | k < 0 || k > n = 0
+  | otherwise = product α `div` product β
   where α = [ max k (n-k) + 1 .. n ]
         β = [1 .. min k (n-k)]
 
@@ -530,12 +538,15 @@ f_stat_critical α' n' d' =
 -- std = sqrt . fromFraction . var
 
 
+-- | Median of a non-empty sample, averaging the middle pair for an even count.
+-- Throws on empty input.
 median :: (Ord α,Fractional α) => [α] -> α
-median l = (if r == 0
-            then head
-            else (µ.take 2))
-           . drop (q-1) . Data.List.sort $ l
+median [] = error "Stats.median: empty sample"
+median l = if r == 0
+           then µ . take 2 . drop (q-1) $ sorted
+           else sorted !! q
   where (q,r) = (`divMod`2) . count $ l
+        sorted = Data.List.sort l
 
 -- mean after applying function
 -- offset to number of values (for n-1)
@@ -742,7 +753,4 @@ freqs = quickSortBy snd . foldl' f []
   where f [] e = [(e,1)]
         f (x@(e',k):xs) e | e' == e   = ((e,k+1):xs)
                           | otherwise = x : f xs e
-
-
-
 
